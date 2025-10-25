@@ -1,0 +1,26 @@
+name: riverpod_architecture
+description: >
+  A Flutter state management architecture built on Riverpod 3.0, providing
+  reusable notifier classes and utilities. Based on Q-Architecture, fully
+  migrated to Riverpod 3.0 with modern patterns.
+version: 1.0.0
+homepage: https://github.com/NoaTubic/riverpod_architecture
+repository: https://github.com/NoaTubic/riverpod_architecture
+issue_tracker: https://github.com/NoaTubic/riverpod_architecture/issues
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  either_dart: ^1.0.0
+  equatable: ^2.0.7
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^3.0.3
+  meta: ^1.16.0
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
