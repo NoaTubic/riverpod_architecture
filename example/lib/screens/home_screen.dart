@@ -153,7 +153,8 @@ class _FeaturesSection extends StatelessWidget {
         _FeatureItem(
           icon: Icons.view_list,
           title: 'Pagination',
-          description: 'Built-in support for paginated data with loading states',
+          description:
+              'Built-in support for paginated data with loading states',
         ),
         _FeatureItem(
           icon: Icons.wb_sunny_outlined,

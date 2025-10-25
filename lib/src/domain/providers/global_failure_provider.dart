@@ -6,8 +6,7 @@ import 'package:riverpod_architecture/src/domain/entities/failure.dart';
 ///
 ///The entire app is wrapped in [BaseWidget] which listens to this provider and failure can be shown above entire
 ///app by simply setting [globalFailure] to true when calling [BaseStateNotifier.execute] method.
-final globalFailureProvider =
-    NotifierProvider<GlobalFailureNotifier, Failure?>(
+final globalFailureProvider = NotifierProvider<GlobalFailureNotifier, Failure?>(
   GlobalFailureNotifier.new,
 );
 
