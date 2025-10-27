@@ -3,7 +3,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_architecture/riverpod_architecture.dart';
-import 'package:riverpod_architecture/src/domain/mixins/simple_notifier_mixin.dart';
+import 'package:riverpod_architecture/src/presentation/mixins/simple_notifier_mixin.dart';
 
 /// Failure class that represents some kind of error that occurs in the app and being passed to UI
 class Failure extends Equatable {

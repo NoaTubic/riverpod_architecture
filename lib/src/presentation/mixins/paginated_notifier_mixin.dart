@@ -1,11 +1,7 @@
-import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_architecture/paginated_notifier.dart';
 import 'package:riverpod_architecture/riverpod_architecture.dart';
-import 'package:riverpod_architecture/src/domain/mixins/paginated_stream_notifier_mixin.dart';
-
-typedef PaginatedEitherFailureOr<Entity>
-    = Future<Either<Failure, PaginatedList<Entity>>>;
+import 'package:riverpod_architecture/src/presentation/mixins/paginated_stream_notifier_mixin.dart';
 
 mixin PaginatedNotifierMixin<Entity, Param>
     on PaginatedStreamNotifierMixin<Entity, Param> {

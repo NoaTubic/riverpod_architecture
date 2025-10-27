@@ -185,15 +185,19 @@ class UserScreen extends ConsumerWidget {
 
 ### State Types
 
-#### BaseState<T>
+#### BaseState `<T>`
+
 For single-value state management:
+
 - `BaseInitial` - Initial empty state
 - `BaseLoading` - Loading state
 - `BaseError(Failure)` - Error with failure details
 - `BaseData(T)` - Success with data
 
-#### PaginatedState<T>
+#### PaginatedState `<T>`
+
 For paginated data:
+
 - `PaginatedLoading` - Loading first page
 - `PaginatedLoadingMore(List<T>)` - Loading more items
 - `PaginatedLoaded(List<T>, isLastPage)` - Successfully loaded
@@ -203,11 +207,11 @@ For paginated data:
 
 Each notifier type has **4 variants**:
 
-| Base Class | Auto Dispose | Family | Auto Dispose + Family |
-|------------|--------------|--------|----------------------|
-| `BaseNotifier<T>` | `AutoDisposeBaseNotifier<T>` | `FamilyBaseNotifier<T, Arg>` | `AutoDisposeFamilyBaseNotifier<T, Arg>` |
-| `PaginatedNotifier<T, Param>` | `AutoDisposePaginatedNotifier<T, Param>` | `FamilyPaginatedNotifier<T, Param, Arg>` | `AutoDisposeFamilyPaginatedNotifier<T, Param, Arg>` |
-| `PaginatedStreamNotifier<T, Param>` | (same variants) | (same variants) | (same variants) |
+| Base Class                            | Auto Dispose                               | Family                                     | Auto Dispose + Family                                 |
+| ------------------------------------- | ------------------------------------------ | ------------------------------------------ | ----------------------------------------------------- |
+| `BaseNotifier<T>`                   | `AutoDisposeBaseNotifier<T>`             | `FamilyBaseNotifier<T, Arg>`             | `AutoDisposeFamilyBaseNotifier<T, Arg>`             |
+| `PaginatedNotifier<T, Param>`       | `AutoDisposePaginatedNotifier<T, Param>` | `FamilyPaginatedNotifier<T, Param, Arg>` | `AutoDisposeFamilyPaginatedNotifier<T, Param, Arg>` |
+| `PaginatedStreamNotifier<T, Param>` | (same variants)                            | (same variants)                            | (same variants)                                       |
 
 **Recommended:** Use `AutoDispose` variants by default for memory efficiency.
 
@@ -336,6 +340,7 @@ ref.read(globalInfoProvider.notifier).set(
 The package includes mapper interfaces for clean data layer patterns:
 
 #### EntityMapper
+
 ```dart
 class UserMapper extends EntityMapper<User, UserResponse> {
   @override
@@ -350,6 +355,7 @@ class UserMapper extends EntityMapper<User, UserResponse> {
 ```
 
 #### FormMapper
+
 ```dart
 class LoginFormMapper extends FormMapper<LoginRequest, LoginForm> {
   @override
@@ -456,8 +462,6 @@ If you're migrating from an older version using `StateNotifier`:
 4. Update family syntax to `NotifierProvider.family()`
 5. Override `prepareForBuild()` instead of constructor initialization
 
-See [CLAUDE.md](CLAUDE.md) for detailed migration information.
-
 ## Package Structure
 
 ```
@@ -466,16 +470,47 @@ lib/
 ├── base_notifier.dart                  # BaseNotifier exports
 ├── paginated_notifier.dart             # Pagination exports
 └── src/
-    ├── domain/
-    │   ├── notifiers/                  # Notifier base classes
-    │   ├── entities/                   # Core entities (Failure, GlobalInfo, etc.)
-    │   ├── providers/                  # Global providers
-    │   └── mixins/                     # Notifier mixins
-    ├── data/
-    │   ├── mappers/                    # Mapper interfaces
-    │   └── mixins/                     # Repository mixins
-    └── presentation/
-        └── widgets/                    # BaseWidget, PaginatedListView
+  ├── data/
+  │   ├── mappers/                    # Mapper interfaces
+  │   │   ├── entity_mapper.dart
+  │   │   ├── form_mapper.dart
+  │   │   ├── form_with_option_mapper.dart
+  │   │   ├── mappers.dart
+  │   │   └── request_mapper.dart
+  │   └── mixins/
+  │       └── error_to_failure_mixin.dart
+  ├── domain/
+  │   ├── either.dart                 # Either/Failure helpers
+  │   └── entities/
+  │       ├── failure.dart
+  │       ├── global_info.dart
+  │       ├── paginated_list.dart
+  │       └── enums/
+  │           └── global_info_status.dart
+  ├── extensions/
+  │   ├── int_extension.dart
+  │   └── iterable_extensions.dart
+  └── presentation/
+    ├── mixins/                     # Notifier mixins
+    │   ├── base_notifier_mixin.dart
+    │   ├── paginated_notifier_mixin.dart
+    │   ├── paginated_stream_notifier_mixin.dart
+    │   └── simple_notifier_mixin.dart
+    ├── notifiers/                  # Sealed states and notifiers
+    │   ├── base_notifier.dart
+    │   ├── base_state.dart
+    │   ├── paginated_notifier.dart
+    │   ├── paginated_state.dart
+    │   ├── paginated_stream_notifier.dart
+    │   └── simple_notifier.dart
+    ├── providers/                  # Global providers
+    │   ├── global_failure_provider.dart
+    │   ├── global_info_provider.dart
+    │   └── global_loading_provider.dart
+    └── widgets/                    # BaseWidget, PaginatedListView
+      ├── base_loading_indicator.dart
+      ├── base_widget.dart
+      └── paginated_list_view.dart
 ```
 
 ## Requirements

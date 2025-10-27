@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:riverpod_architecture/paginated_notifier.dart';
 import 'package:riverpod_architecture/riverpod_architecture.dart';
-import 'package:riverpod_architecture/src/domain/mixins/paginated_notifier_mixin.dart';
 import 'package:riverpod_architecture/src/extensions/int_extension.dart';
 
 class MockTestRepository extends Mock implements TestRepository {}

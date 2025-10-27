@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:riverpod_architecture/paginated_notifier.dart';
 import 'package:riverpod_architecture/riverpod_architecture.dart';
-import 'package:riverpod_architecture/src/domain/mixins/paginated_stream_notifier_mixin.dart';
+import 'package:riverpod_architecture/src/presentation/mixins/paginated_stream_notifier_mixin.dart';
 
 class PaginatedListView<Entity, Param, Arg> extends ConsumerWidget {
   /// required [itemBuilder] used for displaying each item in the scroll view,

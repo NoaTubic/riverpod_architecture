@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
 import 'package:riverpod_architecture/paginated_notifier.dart';
 import 'package:riverpod_architecture/riverpod_architecture.dart';
-import 'package:riverpod_architecture/src/domain/mixins/simple_notifier_mixin.dart';
+import 'package:riverpod_architecture/src/presentation/mixins/simple_notifier_mixin.dart';
 
 mixin PaginatedStreamNotifierMixin<Entity, Param> on SimpleNotifierMixin {
   late final Ref _ref;
