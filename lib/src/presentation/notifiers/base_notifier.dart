@@ -46,9 +46,13 @@ abstract class AutoDisposeBaseNotifier<T> extends Notifier<BaseState<T>>
   }
 }
 
-/// Family variant - In Riverpod 3.0, all notifiers extend Notifier.
+/// Family variant - In Riverpod 3.0, family notifiers accept an argument via constructor.
 abstract class FamilyBaseNotifier<T, Arg> extends Notifier<BaseState<T>>
     with SimpleNotifierMixin, BaseNotifierMixin<T> {
+  FamilyBaseNotifier(this.arg);
+
+  final Arg arg;
+
   void prepareForBuild(Arg arg);
 
   /// do not override in child classes, use prepareForBuild instead
@@ -62,18 +66,19 @@ abstract class FamilyBaseNotifier<T, Arg> extends Notifier<BaseState<T>>
         return state;
       },
     );
-    // Family args will need to be handled by implementation
-    throw UnimplementedError(
-      'FamilyBaseNotifier requires special provider setup. '
-      'Use NotifierProvider.family() and pass arg to prepareForBuild().',
-    );
+    prepareForBuild(arg);
+    return const BaseState.initial();
   }
 }
 
-/// AutoDisposeFamily variant - In Riverpod 3.0, all notifiers extend Notifier.
+/// AutoDisposeFamily variant - In Riverpod 3.0, family notifiers accept an argument via constructor.
 abstract class AutoDisposeFamilyBaseNotifier<T, Arg>
     extends Notifier<BaseState<T>>
     with SimpleNotifierMixin, BaseNotifierMixin<T> {
+  AutoDisposeFamilyBaseNotifier(this.arg);
+
+  final Arg arg;
+
   void prepareForBuild(Arg arg);
 
   /// do not override in child classes, use prepareForBuild instead
@@ -87,10 +92,7 @@ abstract class AutoDisposeFamilyBaseNotifier<T, Arg>
         return state;
       },
     );
-    // Family args will need to be handled by implementation
-    throw UnimplementedError(
-      'AutoDisposeFamilyBaseNotifier requires special provider setup. '
-      'Use NotifierProvider.family() and pass arg to prepareForBuild().',
-    );
+    prepareForBuild(arg);
+    return const BaseState.initial();
   }
 }
