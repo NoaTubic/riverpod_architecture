@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2025-10-28
+
+### Fixed
+
+- **BREAKING FIX**: Fixed paginated family notifier variants to properly accept arguments via constructor pattern (Riverpod 3.0 style)
+  - `FamilyPaginatedNotifier` and `AutoDisposeFamilyPaginatedNotifier`
+  - `FamilyPaginatedStreamNotifier` and `AutoDisposeFamilyPaginatedStreamNotifier`
+  - Added constructor with `arg` parameter for all paginated family classes
+  - Added `final Arg arg` field to store the family argument
+  - Changed `build()` method to call `prepareForBuild(arg)` instead of throwing `UnimplementedError`
+  - All paginated family notifiers now work correctly with `NotifierProvider.family()`
+
+### Added
+
+- Paginated family notifier example in README demonstrating department-based user filtering
+
+### Documentation
+
+- Updated README with "Family Paginated Notifier (with parameter)" section
+- Added complete usage examples for paginated family notifiers
+
+## [1.0.3] - 2025-10-28
+
+### Fixed
+
+- **BREAKING FIX**: Fixed `FamilyBaseNotifier` and `AutoDisposeFamilyBaseNotifier` to properly accept arguments via constructor pattern (Riverpod 3.0 style)
+  - Added constructor with `arg` parameter: `FamilyBaseNotifier(this.arg)`
+  - Added `final Arg arg` field to store the family argument
+  - Changed `build()` method to call `prepareForBuild(arg)` instead of throwing `UnimplementedError`
+  - Family notifiers now work correctly with `NotifierProvider.autoDispose.family()`
+
+### Added
+
+- Family notifier example in README showing proper usage with constructor-based arguments
+- New example file: `example/lib/notifiers/user_family_notifier.dart` demonstrating family notifier pattern
+
+### Documentation
+
+- Updated README with dedicated "Family Notifier (with parameter)" section for base notifiers
+- Added usage examples showing how to access the `arg` field in family notifiers
+- Clarified Riverpod 3.0 family pattern without code generation
+
 ## [1.0.2] - 2025-10-27
 
 ### Fixed

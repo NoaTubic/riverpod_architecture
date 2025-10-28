@@ -108,6 +108,8 @@ class UserRepository {
 
 ### 3. Create a Notifier
 
+#### Basic Notifier
+
 ```dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_architecture/base_notifier.dart';
@@ -133,6 +135,45 @@ final userNotifierProvider =
     NotifierProvider.autoDispose<UserNotifier, BaseState<User>>(
   UserNotifier.new,
 );
+```
+
+#### Family Notifier (with parameter)
+
+When you need different instances for different parameters, use a Family notifier:
+
+```dart
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_architecture/base_notifier.dart';
+
+class UserFamilyNotifier extends AutoDisposeFamilyBaseNotifier<User, int> {
+  UserFamilyNotifier(super.userId);
+
+  late final UserRepository _repository;
+
+  @override
+  void prepareForBuild(int userId) {
+    _repository = UserRepository();
+    // Automatically fetch user on build
+    fetchUser();
+  }
+
+  Future<void> fetchUser() async {
+    // Access the argument via 'arg' field
+    await execute(_repository.getUser(arg));
+  }
+
+  Future<void> refresh() async {
+    await execute(_repository.getUser(arg));
+  }
+}
+
+final userFamilyNotifierProvider =
+    NotifierProvider.autoDispose.family<UserFamilyNotifier, BaseState<User>, int>(
+  UserFamilyNotifier.new,
+);
+
+// Usage in UI:
+// final userState = ref.watch(userFamilyNotifierProvider(userId));
 ```
 
 ### 4. Use in UI with Pattern Matching
@@ -217,6 +258,8 @@ Each notifier type has **4 variants**:
 
 ### Pagination Example
 
+#### Basic Paginated Notifier
+
 ```dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_architecture/paginated_notifier.dart';
@@ -250,6 +293,47 @@ final usersNotifierProvider =
     NotifierProvider.autoDispose<UsersNotifier, PaginatedState<User>>(
   UsersNotifier.new,
 );
+```
+
+#### Family Paginated Notifier (with parameter)
+
+When you need paginated lists that depend on a parameter (e.g., users by department):
+
+```dart
+class DepartmentUsersNotifier extends AutoDisposeFamilyPaginatedNotifier<User, void, String> {
+  DepartmentUsersNotifier(super.departmentId);
+
+  late final UserRepository _repository;
+
+  @override
+  ({PaginatedState<User> initialState, bool useGlobalFailure})
+      prepareForBuild(String departmentId) {
+    _repository = UserRepository();
+    // Use 'arg' field to access the department ID
+    getInitialList();
+    return (
+      initialState: const PaginatedState.loading(),
+      useGlobalFailure: true,
+    );
+  }
+
+  @override
+  Future<Either<Failure, PaginatedList<User>>> getListOrFailure(
+    int page,
+    [void parameter]
+  ) {
+    // Access the department ID via 'arg' field
+    return _repository.getUsersByDepartment(departmentId: arg, page: page);
+  }
+}
+
+final departmentUsersNotifierProvider =
+    NotifierProvider.autoDispose.family<DepartmentUsersNotifier, PaginatedState<User>, String>(
+  (departmentId) => DepartmentUsersNotifier(departmentId),
+);
+
+// Usage in UI:
+// final usersState = ref.watch(departmentUsersNotifierProvider('engineering'));
 ```
 
 #### Using in UI
