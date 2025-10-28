@@ -51,10 +51,14 @@ abstract class AutoDisposePaginatedStreamNotifier<Entity, Param>
   }
 }
 
-/// Family variant - In Riverpod 3.0, all notifiers extend Notifier.
+/// Family variant - In Riverpod 3.0, family notifiers accept an argument via constructor.
 abstract class FamilyPaginatedStreamNotifier<Entity, Param, Arg>
     extends Notifier<PaginatedState<Entity>>
     with SimpleNotifierMixin, PaginatedStreamNotifierMixin<Entity, Param> {
+  FamilyPaginatedStreamNotifier(this.arg);
+
+  final Arg arg;
+
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
       prepareForBuild(Arg arg);
 
@@ -66,17 +70,20 @@ abstract class FamilyPaginatedStreamNotifier<Entity, Param, Arg>
       if (newState != null) state = newState;
       return state;
     });
-    throw UnimplementedError(
-      'FamilyPaginatedStreamNotifier requires special provider setup. '
-      'Use NotifierProvider.family() and pass arg to prepareForBuild().',
-    );
+    final data = prepareForBuild(arg);
+    setUserGlobalFailure(data.useGlobalFailure);
+    return data.initialState;
   }
 }
 
-/// AutoDisposeFamily variant - In Riverpod 3.0, all notifiers extend Notifier.
+/// AutoDisposeFamily variant - In Riverpod 3.0, family notifiers accept an argument via constructor.
 abstract class AutoDisposeFamilyPaginatedStreamNotifier<Entity, Param, Arg>
     extends Notifier<PaginatedState<Entity>>
     with SimpleNotifierMixin, PaginatedStreamNotifierMixin<Entity, Param> {
+  AutoDisposeFamilyPaginatedStreamNotifier(this.arg);
+
+  final Arg arg;
+
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
       prepareForBuild(Arg arg);
 
@@ -88,9 +95,8 @@ abstract class AutoDisposeFamilyPaginatedStreamNotifier<Entity, Param, Arg>
       if (newState != null) state = newState;
       return state;
     });
-    throw UnimplementedError(
-      'AutoDisposeFamilyPaginatedStreamNotifier requires special provider setup. '
-      'Use NotifierProvider.family() and pass arg to prepareForBuild().',
-    );
+    final data = prepareForBuild(arg);
+    setUserGlobalFailure(data.useGlobalFailure);
+    return data.initialState;
   }
 }

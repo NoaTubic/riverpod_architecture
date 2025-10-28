@@ -59,13 +59,17 @@ abstract class AutoDisposePaginatedNotifier<Entity, Param>
   }
 }
 
-/// Family variant - In Riverpod 3.0, all notifiers extend Notifier.
+/// Family variant - In Riverpod 3.0, family notifiers accept an argument via constructor.
 abstract class FamilyPaginatedNotifier<Entity, Param, Arg>
     extends Notifier<PaginatedState<Entity>>
     with
         SimpleNotifierMixin,
         PaginatedStreamNotifierMixin<Entity, Param>,
         PaginatedNotifierMixin<Entity, Param> {
+  FamilyPaginatedNotifier(this.arg);
+
+  final Arg arg;
+
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
       prepareForBuild(Arg arg);
 
@@ -79,20 +83,23 @@ abstract class FamilyPaginatedNotifier<Entity, Param, Arg>
         return state;
       },
     );
-    throw UnimplementedError(
-      'FamilyPaginatedNotifier requires special provider setup. '
-      'Use NotifierProvider.family() and pass arg to prepareForBuild().',
-    );
+    final data = prepareForBuild(arg);
+    setUserGlobalFailure(data.useGlobalFailure);
+    return data.initialState;
   }
 }
 
-/// AutoDisposeFamily variant - In Riverpod 3.0, all notifiers extend Notifier.
+/// AutoDisposeFamily variant - In Riverpod 3.0, family notifiers accept an argument via constructor.
 abstract class AutoDisposeFamilyPaginatedNotifier<Entity, Param, Arg>
     extends Notifier<PaginatedState<Entity>>
     with
         SimpleNotifierMixin,
         PaginatedStreamNotifierMixin<Entity, Param>,
         PaginatedNotifierMixin<Entity, Param> {
+  AutoDisposeFamilyPaginatedNotifier(this.arg);
+
+  final Arg arg;
+
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
       prepareForBuild(Arg arg);
 
@@ -106,9 +113,8 @@ abstract class AutoDisposeFamilyPaginatedNotifier<Entity, Param, Arg>
         return state;
       },
     );
-    throw UnimplementedError(
-      'AutoDisposeFamilyPaginatedNotifier requires special provider setup. '
-      'Use NotifierProvider.family() and pass arg to prepareForBuild().',
-    );
+    final data = prepareForBuild(arg);
+    setUserGlobalFailure(data.useGlobalFailure);
+    return data.initialState;
   }
 }
