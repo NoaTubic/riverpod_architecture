@@ -3,11 +3,11 @@
 [![Pub Version](https://img.shields.io/pub/v/riverpod_architecture)](https://pub.dev/packages/riverpod_architecture)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A Flutter state management architecture built on **Riverpod 3.0**, providing reusable notifier classes and utilities for clean, scalable applications. This package reduces boilerplate by providing standardized patterns for handling state, errors, pagination, and data mapping.
+A Flutter state management architecture built on **Riverpod 3.x**, providing reusable notifier classes and utilities for clean, scalable applications. This package reduces boilerplate by providing standardized patterns for handling state, errors, pagination, and data mapping.
 
 ## Features
 
-✅ **Modern Riverpod 3.0** - Fully migrated to latest Riverpod with `Notifier` base classes
+✅ **Modern Riverpod 3.x** - Fully migrated to latest Riverpod with `Notifier` base classes
 ✅ **State Management** - `BaseNotifier` for handling initial/loading/error/data states
 ✅ **Pagination** - Built-in `PaginatedNotifier` with infinite scroll support
 ✅ **Error Handling** - Functional error handling with `Either<Failure, T>`
@@ -23,7 +23,7 @@ Add to your `pubspec.yaml`:
 ```yaml
 dependencies:
   riverpod_architecture: ^2.0.0
-  flutter_riverpod: ^3.0.3
+  flutter_riverpod: ^3.2.1
   either_dart: ^1.0.0
 ```
 
@@ -601,7 +601,7 @@ lib/
 
 - **Dart SDK**: `>=3.0.0 <4.0.0`
 - **Flutter**: Latest stable
-- **Riverpod**: `^3.0.3`
+- **Riverpod**: `^3.2.1`
 
 ## Contributing
 
@@ -613,7 +613,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Credits
 
-Based on [Q-Architecture](https://github.com/Q-Agency/Q-Architecture), fully migrated to Riverpod 3.0 with modern patterns.
+Based on [Q-Architecture](https://github.com/Q-Agency/Q-Architecture), fully migrated to Riverpod 3.x with modern patterns.
 
 ## Links
 

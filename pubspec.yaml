@@ -1,6 +1,6 @@
 name: riverpod_architecture
-description: State management architecture built on Riverpod 3.0 with BaseNotifier, PaginatedNotifier, Either error handling, and sealed classes.
-version: 1.0.4
+description: State management architecture built on Riverpod 3.x with BaseNotifier, PaginatedNotifier, Either error handling, and sealed classes.
+version: 1.0.5
 homepage: https://github.com/NoaTubic/riverpod_architecture
 repository: https://github.com/NoaTubic/riverpod_architecture
 issue_tracker: https://github.com/NoaTubic/riverpod_architecture/issues
@@ -10,14 +10,14 @@ environment:
 
 dependencies:
   either_dart: ^1.0.0
-  equatable: ^2.0.7
+  equatable: ^2.0.8
   flutter:
     sdk: flutter
-  flutter_riverpod: ^3.0.3
-  meta: ^1.16.0
+  flutter_riverpod: ^3.2.1
+  meta: ^1.17.0
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.4

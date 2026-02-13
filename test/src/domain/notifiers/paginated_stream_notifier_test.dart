@@ -55,7 +55,7 @@ void main() {
 
   group('getInitialList()', () {
     test(
-        'should emit [Loading, Loaded, Loaded] when repository returns PaginatedList twice',
+        'should emit [Loading, Loaded] when repository returns PaginatedList twice (duplicate state deduplicated)',
         () async {
       when(() => testRepository.getListStreamOrFailure(1))
           .thenAnswer((_) => getPageResponse(page: 1));
@@ -72,7 +72,6 @@ void main() {
       expect(
         [
           const PaginatedState<Never>.loading(),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
         ],
         states,
@@ -106,7 +105,7 @@ void main() {
 
   group('getNextPage()', () {
     test(
-        'should emit [LoadingMore, Loaded, Loaded] when repository returns PaginatedList twice',
+        'should emit [LoadingMore, Loaded] when repository returns PaginatedList twice (duplicate state deduplicated)',
         () async {
       when(() => testRepository.getListStreamOrFailure(1))
           .thenAnswer((_) => getPageResponse(page: 1));
@@ -121,7 +120,6 @@ void main() {
         [
           const PaginatedState<String>.loadingMore([]),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
         ],
         states,
       );
@@ -130,7 +128,7 @@ void main() {
 
   group('getInitialList() and getNextPage() combined', () {
     test(
-        'should emit [Loading, Loaded, Loaded, LoadingMore, Loaded] when repository first returns PaginatedList twice and then another PaginatedList',
+        'should emit [Loading, Loaded, LoadingMore, Loaded] when repository first returns PaginatedList twice (deduplicated) and then another PaginatedList',
         () async {
       when(() => testRepository.getListStreamOrFailure(1))
           .thenAnswer((_) => getPageResponse(page: 1));
@@ -148,7 +146,6 @@ void main() {
       expect(
         [
           const PaginatedState<Never>.loading(),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loadingMore(getList(page: 1)),
           PaginatedState.loaded(
@@ -161,7 +158,7 @@ void main() {
     });
 
     test(
-        'should emit [Loading, Loaded, Loaded, LoadingMore, Loaded] when repository returns PaginatedList twice and then another PaginatedList (second getNextPage() will be ignored)',
+        'should emit [Loading, Loaded, LoadingMore, Loaded] when repository returns PaginatedList twice (deduplicated) and then another PaginatedList (second getNextPage() will be ignored)',
         () async {
       when(() => testRepository.getListStreamOrFailure(1))
           .thenAnswer((_) => getPageResponse(page: 1));
@@ -180,7 +177,6 @@ void main() {
       expect(
         [
           const PaginatedState<Never>.loading(),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loadingMore(getList(page: 1)),
           PaginatedState.loaded(
@@ -224,7 +220,7 @@ void main() {
     });
 
     test(
-        'show emit [Loading, Loaded, Loaded, LoadingMore, Error] when repository returns PaginatedList twice and then Failure',
+        'show emit [Loading, Loaded, LoadingMore, Error] when repository returns PaginatedList twice (deduplicated) and then Failure',
         () async {
       when(() => testRepository.getListStreamOrFailure(1))
           .thenAnswer((_) => getPageResponse(page: 1));
@@ -242,7 +238,6 @@ void main() {
       expect(
         [
           const PaginatedState<Never>.loading(),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loadingMore(getList(page: 1)),
           PaginatedState.error(getList(page: 1), testGenericFailure),
@@ -285,7 +280,7 @@ void main() {
 
   group('refresh()', () {
     test(
-        'show emit [Loading, Loaded, Error, Loading, Loaded] when repository returns PaginatedList then Failure and then first PaginatedList',
+        'should emit [Loading, Loaded, Error, Loading, Loaded] when repository returns PaginatedList then Failure and then first PaginatedList (duplicate states deduplicated)',
         () async {
       var counter = 0;
       when(() => testRepository.getListStreamOrFailure(1)).thenAnswer((_) {
@@ -313,14 +308,13 @@ void main() {
           PaginatedState.error(getList(page: 1), testGenericFailure),
           const PaginatedState<Never>.loading(),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
         ],
         states,
       );
     });
 
     test(
-        'should emit [Loading, Loaded, Loaded, LoadingMore, Loaded, Loading, Loaded, Loaded] when repository returns PaginatedList twice, then PaginatedList and then again PaginatedList twice',
+        'should emit [Loading, Loaded, LoadingMore, Loaded, Loading, Loaded] when repository returns PaginatedList twice (deduplicated), then PaginatedList and then again PaginatedList twice (deduplicated)',
         () async {
       when(() => testRepository.getListStreamOrFailure(1))
           .thenAnswer((_) => getPageResponse(page: 1));
@@ -341,14 +335,12 @@ void main() {
         [
           const PaginatedState<Never>.loading(),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loadingMore(getList(page: 1)),
           PaginatedState.loaded(
             getList(page: 1) + getList(page: 2),
             isLastPage: true,
           ),
           const PaginatedState<Never>.loading(),
-          PaginatedState.loaded(getList(page: 1), isLastPage: false),
           PaginatedState.loaded(getList(page: 1), isLastPage: false),
         ],
         states,

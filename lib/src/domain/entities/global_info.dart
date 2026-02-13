@@ -13,7 +13,7 @@ class GlobalInfo extends Equatable {
   /// GlobalInfo title that can be shown to user
   final String? title;
 
-  /// uniqueKey set by [BaseStateNotifier.setGlobalInfo] method to trigger [globalInfoProvider] each time
+  /// uniqueKey set by [BaseNotifier.setGlobalInfo] method to trigger [globalInfoProvider] each time
   final UniqueKey? uniqueKey;
 
   const GlobalInfo({

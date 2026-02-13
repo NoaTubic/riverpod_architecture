@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_architecture/riverpod_architecture.dart';
 
-///[globalInfoProvider] can be used to show any info updating [BaseStateNotifier] state.
+///[globalInfoProvider] can be used to show any info without updating [BaseNotifier] state.
 ///
 ///The entire app is wrapped in [BaseWidget] which listens to this provider and GlobalInfo can be shown above entire
 ///app by simply calling setGlobalInfo() inside execute > onDataReceived()
