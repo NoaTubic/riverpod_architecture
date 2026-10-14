@@ -27,11 +27,15 @@ class BaseWidget extends ConsumerWidget {
       onGlobalInfo(globalInfo);
     });
     final showLoading = ref.watch(globalLoadingProvider);
-    return Stack(
+    final stack = Stack(
       children: [
         child,
         if (showLoading) loadingIndicator ?? const BaseLoadingIndicator(),
       ],
     );
+    // BaseWidget may sit above MaterialApp, where there is no
+    // Directionality yet.
+    if (Directionality.maybeOf(context) != null) return stack;
+    return Directionality(textDirection: TextDirection.ltr, child: stack);
   }
 }

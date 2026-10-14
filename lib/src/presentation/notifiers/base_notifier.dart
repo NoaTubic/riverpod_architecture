@@ -12,13 +12,10 @@ abstract class BaseNotifier<T> extends Notifier<BaseState<T>>
   @nonVirtual
   @override
   BaseState<T> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     prepareForBuild();
     return const BaseState.initial();
   }
@@ -34,13 +31,10 @@ abstract class AutoDisposeBaseNotifier<T> extends Notifier<BaseState<T>>
   @nonVirtual
   @override
   BaseState<T> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     prepareForBuild();
     return const BaseState.initial();
   }
@@ -59,13 +53,10 @@ abstract class FamilyBaseNotifier<T, Arg> extends Notifier<BaseState<T>>
   @nonVirtual
   @override
   BaseState<T> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     prepareForBuild(arg);
     return const BaseState.initial();
   }
@@ -85,13 +76,10 @@ abstract class AutoDisposeFamilyBaseNotifier<T, Arg>
   @nonVirtual
   @override
   BaseState<T> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     prepareForBuild(arg);
     return const BaseState.initial();
   }

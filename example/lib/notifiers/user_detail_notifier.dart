@@ -5,8 +5,8 @@ import 'package:example/models/user.dart';
 
 /// Notifier for fetching a single user - demonstrates BaseNotifier usage
 class UserDetailNotifier extends AutoDisposeBaseNotifier<User> {
-  late final UserRepository _repository;
-  late final int _userId;
+  late UserRepository _repository;
+  int? _userId;
 
   @override
   void prepareForBuild() {
@@ -21,7 +21,7 @@ class UserDetailNotifier extends AutoDisposeBaseNotifier<User> {
 
   /// Refresh the current user
   Future<void> refresh() async {
-    await execute(_repository.getUser(_userId));
+    if (_userId case final id?) await execute(_repository.getUser(id));
   }
 }
 

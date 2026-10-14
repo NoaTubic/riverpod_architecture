@@ -6,14 +6,14 @@ import 'package:riverpod_architecture/riverpod_architecture.dart';
 import 'package:riverpod_architecture/src/presentation/mixins/paginated_stream_notifier_mixin.dart';
 import 'package:riverpod_architecture/src/presentation/mixins/simple_notifier_mixin.dart';
 
-typedef PaginatedStreamFailureOr<Entity>
-    = Stream<Either<Failure, PaginatedList<Entity>>>;
+typedef PaginatedStreamFailureOr<Entity> =
+    Stream<Either<Failure, PaginatedList<Entity>>>;
 
 abstract class PaginatedStreamNotifier<Entity, Param>
     extends Notifier<PaginatedState<Entity>>
     with SimpleNotifierMixin, PaginatedStreamNotifierMixin<Entity, Param> {
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild();
+  prepareForBuild();
 
   /// do not override in child classes, use prepareForBuild instead
   @nonVirtual
@@ -35,7 +35,7 @@ abstract class AutoDisposePaginatedStreamNotifier<Entity, Param>
     extends Notifier<PaginatedState<Entity>>
     with SimpleNotifierMixin, PaginatedStreamNotifierMixin<Entity, Param> {
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild();
+  prepareForBuild();
 
   /// do not override in child classes, use prepareForBuild instead
   @nonVirtual
@@ -60,7 +60,7 @@ abstract class FamilyPaginatedStreamNotifier<Entity, Param, Arg>
   final Arg arg;
 
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild(Arg arg);
+  prepareForBuild(Arg arg);
 
   /// do not override in child classes, use prepareForBuild instead
   @nonVirtual
@@ -85,7 +85,7 @@ abstract class AutoDisposeFamilyPaginatedStreamNotifier<Entity, Param, Arg>
   final Arg arg;
 
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild(Arg arg);
+  prepareForBuild(Arg arg);
 
   /// do not override in child classes, use prepareForBuild instead
   @nonVirtual

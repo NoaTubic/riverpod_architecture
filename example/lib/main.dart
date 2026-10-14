@@ -17,35 +17,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(
-      loadingIndicator: const Center(
-        child: CircularProgressIndicator(),
+    return MaterialApp(
+      title: 'Riverpod Architecture Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
-      onGlobalFailure: (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.title),
-            backgroundColor: Colors.red,
-          ),
-        );
-      },
-      onGlobalInfo: (info) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(info.message),
-            backgroundColor: info.globalInfoStatus == GlobalInfoStatus.success
-                ? Colors.green
-                : Colors.blue,
-          ),
-        );
-      },
-      child: MaterialApp(
-        title: 'Riverpod Architecture Example',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
+      home: const HomeScreen(),
+      // BaseWidget goes in the builder, so its callbacks get a context that
+      // can show snackbars.
+      builder: (context, child) => BaseWidget(
+        loadingIndicator: const Center(
+          child: CircularProgressIndicator(),
         ),
-        home: const HomeScreen(),
+        onGlobalFailure: (failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(failure.title),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+        onGlobalInfo: (info) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(info.message),
+              backgroundColor: info.globalInfoStatus == GlobalInfoStatus.success
+                  ? Colors.green
+                  : Colors.blue,
+            ),
+          );
+        },
+        child: child!,
       ),
     );
   }

@@ -37,14 +37,13 @@ class Failure extends Equatable {
     dynamic error,
     StackTrace? stackTrace,
     UniqueKey? uniqueKey,
-  }) =>
-      Failure(
-        title: title ?? 'Unknown error occurred',
-        isCritical: isCritical,
-        error: error,
-        stackTrace: stackTrace,
-        uniqueKey: uniqueKey,
-      );
+  }) => Failure(
+    title: title ?? 'Unknown error occurred',
+    isCritical: isCritical,
+    error: error,
+    stackTrace: stackTrace,
+    uniqueKey: uniqueKey,
+  );
 
   factory Failure.permissionDenied({
     String? title,
@@ -52,14 +51,13 @@ class Failure extends Equatable {
     dynamic error,
     StackTrace? stackTrace,
     UniqueKey? uniqueKey,
-  }) =>
-      Failure(
-        title: title ?? 'Permission denied',
-        isCritical: isCritical,
-        error: error,
-        stackTrace: stackTrace,
-        uniqueKey: uniqueKey,
-      );
+  }) => Failure(
+    title: title ?? 'Permission denied',
+    isCritical: isCritical,
+    error: error,
+    stackTrace: stackTrace,
+    uniqueKey: uniqueKey,
+  );
 
   Failure copyWith({
     String? title,
@@ -67,23 +65,16 @@ class Failure extends Equatable {
     dynamic error,
     StackTrace? stackTrace,
     UniqueKey? uniqueKey,
-  }) =>
-      Failure(
-        title: title ?? this.title,
-        isCritical: isCritical ?? this.isCritical,
-        error: error ?? this.error,
-        stackTrace: stackTrace ?? this.stackTrace,
-        uniqueKey: uniqueKey ?? this.uniqueKey,
-      );
+  }) => Failure(
+    title: title ?? this.title,
+    isCritical: isCritical ?? this.isCritical,
+    error: error ?? this.error,
+    stackTrace: stackTrace ?? this.stackTrace,
+    uniqueKey: uniqueKey ?? this.uniqueKey,
+  );
 
   @override
-  List<Object?> get props => [
-        title,
-        isCritical,
-        error,
-        stackTrace,
-        uniqueKey,
-      ];
+  List<Object?> get props => [title, isCritical, error, stackTrace, uniqueKey];
 
   @override
   bool? get stringify => true;

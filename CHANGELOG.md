@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2026-10-14
+
+### Fixed
+
+- **Rebuilds**: a notifier whose `prepareForBuild` watches another provider no longer breaks after that provider changes. `BaseNotifier` threw "Cannot use the Ref after it has been disposed" and `PaginatedNotifier` threw a `LateInitializationError`. Notifiers now use the current `Ref` after every rebuild.
+- **BaseWidget** no longer crashes with "No Directionality widget found" when placed above `MaterialApp`, which is how the README and the example used it.
+- **Docs**: the README and the example now add `BaseWidget` through `MaterialApp.builder`, so the failure and info callbacks can show snackbars. Fixed the install version, `late final` fields that broke on rebuild, and an undefined variable in the examples.
+
+### Updated
+
+- Allow `equatable` 3.x (`>=2.0.8 <4.0.0`).
+- SDK lower bound is now `^3.7.0`, which `flutter_riverpod` 3 already required.
+
 ## [1.0.5] - 2026-02-13
 
 ### Fixed

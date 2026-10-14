@@ -9,18 +9,15 @@ typedef PreHandleData<T> = bool Function(T data);
 typedef PreHandleFailure = bool Function(Failure failure);
 
 mixin BaseNotifierMixin<DataState> on SimpleNotifierMixin {
-  late final BaseState<DataState> Function({BaseState<DataState>? newState})
-      _getOrUpdateState;
-  bool _initialized = false;
+  late BaseState<DataState> Function({BaseState<DataState>? newState})
+  _getOrUpdateState;
 
   @internal
   void initWithRefAndGetOrUpdateState(
     Ref ref,
     BaseState<DataState> Function({BaseState<DataState>? newState})
-        getOrUpdateState,
+    getOrUpdateState,
   ) {
-    if (_initialized) return;
-    _initialized = true;
     super.initWithRef(ref);
     _getOrUpdateState = getOrUpdateState;
   }
@@ -125,9 +122,7 @@ mixin BaseNotifierMixin<DataState> on SimpleNotifierMixin {
     bool withLoadingState,
   ) {
     final shouldUpdateState = onDataReceived?.call(data) ?? true;
-    _unsetLoading(
-      shouldUpdateState ? false : withLoadingState,
-    );
+    _unsetLoading(shouldUpdateState ? false : withLoadingState);
     if (shouldUpdateState) {
       _getOrUpdateState(newState: BaseState.data(data));
     }
@@ -135,10 +130,7 @@ mixin BaseNotifierMixin<DataState> on SimpleNotifierMixin {
 
   ///Shows global loading if [globalLoading] == true
   ///Set [withLoadingState] == true if you want to change [BaseNotifier] state to [BaseState.loading]
-  void _setLoading(
-    bool withLoadingState,
-    bool globalLoading,
-  ) {
+  void _setLoading(bool withLoadingState, bool globalLoading) {
     if (withLoadingState) {
       _getOrUpdateState(newState: const BaseState.loading());
     }
@@ -147,9 +139,7 @@ mixin BaseNotifierMixin<DataState> on SimpleNotifierMixin {
 
   ///Clears global loading
   ///Set [withLoadingState] == true if you want to reset [BaseNotifier] state to [BaseState.initial]
-  void _unsetLoading(
-    bool withLoadingState,
-  ) {
+  void _unsetLoading(bool withLoadingState) {
     final isAlreadyLoading = switch (_getOrUpdateState()) {
       BaseLoading() => true,
       _ => false,

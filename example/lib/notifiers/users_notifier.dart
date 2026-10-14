@@ -7,7 +7,7 @@ import 'package:example/models/user.dart';
 
 /// Notifier for paginated user list - demonstrates PaginatedNotifier usage
 class UsersNotifier extends AutoDisposePaginatedNotifier<User, void> {
-  late final UserRepository _repository;
+  late UserRepository _repository;
 
   @override
   ({PaginatedState<User> initialState, bool useGlobalFailure})

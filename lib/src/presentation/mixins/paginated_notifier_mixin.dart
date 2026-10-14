@@ -15,6 +15,5 @@ mixin PaginatedNotifierMixin<Entity, Param>
   PaginatedStreamFailureOr<Entity> getListStreamOrFailure(
     int page, [
     Param? parameter,
-  ]) =>
-      getListOrFailure(page, parameter).asStream();
+  ]) => getListOrFailure(page, parameter).asStream();
 }

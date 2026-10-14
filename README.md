@@ -7,14 +7,14 @@ A Flutter state management architecture built on **Riverpod 3.x**, providing reu
 
 ## Features
 
-✅ **Modern Riverpod 3.x** - Fully migrated to latest Riverpod with `Notifier` base classes
-✅ **State Management** - `BaseNotifier` for handling initial/loading/error/data states
-✅ **Pagination** - Built-in `PaginatedNotifier` with infinite scroll support
-✅ **Error Handling** - Functional error handling with `Either<Failure, T>`
-✅ **Global Providers** - App-wide loading, failure, and info notifications
-✅ **Data Mapping** - Mappers for API responses, forms, and requests
-✅ **Type Safety** - Sealed classes with pattern matching
-✅ **Auto Dispose** - Memory-efficient with auto-dispose variants
+- **Modern Riverpod 3.x**: Fully migrated to latest Riverpod with `Notifier` base classes
+- **State Management**: `BaseNotifier` for handling initial/loading/error/data states
+- **Pagination**: Built-in `PaginatedNotifier` with infinite scroll support
+- **Error Handling**: Functional error handling with `Either<Failure, T>`
+- **Global Providers**: App-wide loading, failure, and info notifications
+- **Data Mapping**: Mappers for API responses, forms, and requests
+- **Type Safety**: Sealed classes with pattern matching
+- **Auto Dispose**: Memory-efficient with auto-dispose variants
 
 ## Installation
 
@@ -22,7 +22,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  riverpod_architecture: ^2.0.0
+  riverpod_architecture: ^1.0.6
   flutter_riverpod: ^3.2.1
   either_dart: ^1.0.0
 ```
@@ -35,7 +35,11 @@ flutter pub get
 
 ## Quick Start
 
-### 1. Wrap your app with `BaseWidget`
+### 1. Add `BaseWidget` through `MaterialApp.builder`
+
+`BaseWidget` shows the global loading overlay and reports global failures
+and info messages. Put it in `MaterialApp.builder`, so the callbacks get a
+context that can show snackbars and dialogs.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -55,26 +59,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(
-      loadingIndicator: const Center(
-        child: CircularProgressIndicator(),
-      ),
-      onGlobalFailure: (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.title),
-            backgroundColor: Colors.red,
-          ),
-        );
-      },
-      onGlobalInfo: (info) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(info.message)),
-        );
-      },
-      child: MaterialApp(
-        title: 'My App',
-        home: const HomeScreen(),
+    return MaterialApp(
+      title: 'My App',
+      home: const HomeScreen(),
+      builder: (context, child) => BaseWidget(
+        loadingIndicator: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        onGlobalFailure: (failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(failure.title),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+        onGlobalInfo: (info) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(info.message)),
+          );
+        },
+        child: child!,
       ),
     );
   }
@@ -115,19 +120,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_architecture/base_notifier.dart';
 
 class UserNotifier extends AutoDisposeBaseNotifier<User> {
-  late final UserRepository _repository;
+  late UserRepository _repository;
+  int? _userId;
 
   @override
   void prepareForBuild() {
-    _repository = UserRepository();
+    _repository = ref.watch(userRepositoryProvider);
   }
 
   Future<void> fetchUser(int userId) async {
+    _userId = userId;
     await execute(_repository.getUser(userId));
   }
 
   Future<void> refresh() async {
-    await execute(_repository.getUser(_currentUserId));
+    if (_userId case final id?) await execute(_repository.getUser(id));
   }
 }
 
@@ -148,7 +155,7 @@ import 'package:riverpod_architecture/base_notifier.dart';
 class UserFamilyNotifier extends AutoDisposeFamilyBaseNotifier<User, int> {
   UserFamilyNotifier(super.userId);
 
-  late final UserRepository _repository;
+  late UserRepository _repository;
 
   @override
   void prepareForBuild(int userId) {
@@ -266,7 +273,7 @@ import 'package:riverpod_architecture/paginated_notifier.dart';
 import 'package:either_dart/either.dart';
 
 class UsersNotifier extends AutoDisposePaginatedNotifier<User, void> {
-  late final UserRepository _repository;
+  late UserRepository _repository;
 
   @override
   ({PaginatedState<User> initialState, bool useGlobalFailure})
@@ -303,7 +310,7 @@ When you need paginated lists that depend on a parameter (e.g., users by departm
 class DepartmentUsersNotifier extends AutoDisposeFamilyPaginatedNotifier<User, void, String> {
   DepartmentUsersNotifier(super.departmentId);
 
-  late final UserRepository _repository;
+  late UserRepository _repository;
 
   @override
   ({PaginatedState<User> initialState, bool useGlobalFailure})
@@ -599,7 +606,7 @@ lib/
 
 ## Requirements
 
-- **Dart SDK**: `>=3.0.0 <4.0.0`
+- **Dart SDK**: `^3.7.0`
 - **Flutter**: Latest stable
 - **Riverpod**: `^3.2.1`
 

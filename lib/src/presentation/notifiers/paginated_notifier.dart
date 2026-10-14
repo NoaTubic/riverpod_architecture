@@ -12,19 +12,16 @@ abstract class PaginatedNotifier<Entity, Param>
         PaginatedStreamNotifierMixin<Entity, Param>,
         PaginatedNotifierMixin<Entity, Param> {
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild();
+  prepareForBuild();
 
   /// do not override in child classes, use prepareForBuild instead
   @nonVirtual
   @override
   PaginatedState<Entity> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     final data = prepareForBuild();
     setUserGlobalFailure(data.useGlobalFailure);
     return data.initialState;
@@ -40,19 +37,16 @@ abstract class AutoDisposePaginatedNotifier<Entity, Param>
         PaginatedStreamNotifierMixin<Entity, Param>,
         PaginatedNotifierMixin<Entity, Param> {
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild();
+  prepareForBuild();
 
   /// do not override in child classes, use prepareForBuild instead
   @nonVirtual
   @override
   PaginatedState<Entity> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     final data = prepareForBuild();
     setUserGlobalFailure(data.useGlobalFailure);
     return data.initialState;
@@ -71,18 +65,15 @@ abstract class FamilyPaginatedNotifier<Entity, Param, Arg>
   final Arg arg;
 
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild(Arg arg);
+  prepareForBuild(Arg arg);
 
   @nonVirtual
   @override
   PaginatedState<Entity> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     final data = prepareForBuild(arg);
     setUserGlobalFailure(data.useGlobalFailure);
     return data.initialState;
@@ -101,18 +92,15 @@ abstract class AutoDisposeFamilyPaginatedNotifier<Entity, Param, Arg>
   final Arg arg;
 
   ({PaginatedState<Entity> initialState, bool useGlobalFailure})
-      prepareForBuild(Arg arg);
+  prepareForBuild(Arg arg);
 
   @nonVirtual
   @override
   PaginatedState<Entity> build() {
-    initWithRefAndGetOrUpdateState(
-      ref,
-      ({newState}) {
-        if (newState != null) state = newState;
-        return state;
-      },
-    );
+    initWithRefAndGetOrUpdateState(ref, ({newState}) {
+      if (newState != null) state = newState;
+      return state;
+    });
     final data = prepareForBuild(arg);
     setUserGlobalFailure(data.useGlobalFailure);
     return data.initialState;

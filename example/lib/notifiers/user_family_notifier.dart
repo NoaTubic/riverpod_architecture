@@ -8,7 +8,7 @@ import 'package:example/models/user.dart';
 class UserFamilyNotifier extends AutoDisposeFamilyBaseNotifier<User, int> {
   UserFamilyNotifier(super.userId);
 
-  late final UserRepository _repository;
+  late UserRepository _repository;
 
   @override
   void prepareForBuild(int userId) {

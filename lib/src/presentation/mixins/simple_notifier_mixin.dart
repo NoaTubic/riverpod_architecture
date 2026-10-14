@@ -5,15 +5,15 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:riverpod_architecture/riverpod_architecture.dart';
 
 mixin SimpleNotifierMixin {
-  late final Ref _ref;
-  bool _initialized = false;
+  late Ref _ref;
   Timer? _debounceTimer;
   final Map<String, bool> _isThrottlingMap = {};
 
+  /// Called from every `build`. Riverpod hands the notifier a new [Ref]
+  /// each time the provider rebuilds and disposes the old one, so the latest
+  /// one is always kept.
   @internal
   void initWithRef(Ref ref) {
-    if (_initialized) return;
-    _initialized = true;
     _ref = ref;
     _ref.onDispose(() => _debounceTimer?.cancel());
   }
@@ -45,16 +45,12 @@ mixin SimpleNotifierMixin {
     ProviderListenable<U> provider,
     void Function(U? previous, U next) invokeFunction, {
     bool Function(U? previous, U next)? skipUpdateCondition,
-  }) =>
-      _ref.listen(
-        provider,
-        (previous, next) {
-          if (previous == next) return;
-          if (skipUpdateCondition?.call(previous, next) ?? false) return;
+  }) => _ref.listen(provider, (previous, next) {
+    if (previous == next) return;
+    if (skipUpdateCondition?.call(previous, next) ?? false) return;
 
-          invokeFunction.call(previous, next);
-        },
-      );
+    invokeFunction.call(previous, next);
+  });
 
   ///Wait to collect multiple method calls for certain duration before allowing only one method call to proceed
   @protected
@@ -63,10 +59,7 @@ mixin SimpleNotifierMixin {
   }) async {
     if (_debounceTimer?.isActive == true) _debounceTimer?.cancel();
     final debounceCompleter = Completer();
-    _debounceTimer = Timer(
-      duration,
-      () => debounceCompleter.complete(),
-    );
+    _debounceTimer = Timer(duration, () => debounceCompleter.complete());
     await debounceCompleter.future;
   }
 

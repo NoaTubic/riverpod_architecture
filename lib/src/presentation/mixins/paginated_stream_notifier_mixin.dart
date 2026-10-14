@@ -7,10 +7,10 @@ import 'package:riverpod_architecture/riverpod_architecture.dart';
 import 'package:riverpod_architecture/src/presentation/mixins/simple_notifier_mixin.dart';
 
 mixin PaginatedStreamNotifierMixin<Entity, Param> on SimpleNotifierMixin {
-  late final Ref _ref;
-  late final bool _useGlobalFailure;
-  late final PaginatedState<Entity> Function({PaginatedState<Entity>? newState})
-      _getOrUpdateState;
+  late Ref _ref;
+  late bool _useGlobalFailure;
+  late PaginatedState<Entity> Function({PaginatedState<Entity>? newState})
+  _getOrUpdateState;
   bool _initialized = false;
   PaginatedList<Entity>? _lastPaginatedList;
   Param? _parameter;
@@ -20,9 +20,8 @@ mixin PaginatedStreamNotifierMixin<Entity, Param> on SimpleNotifierMixin {
   void initWithRefAndGetOrUpdateState(
     Ref ref,
     PaginatedState<Entity> Function({PaginatedState<Entity>? newState})
-        getOrUpdateState,
+    getOrUpdateState,
   ) {
-    if (_initialized) return;
     _initialized = true;
     super.initWithRef(ref);
     _ref = ref;
@@ -38,11 +37,7 @@ mixin PaginatedStreamNotifierMixin<Entity, Param> on SimpleNotifierMixin {
   Future<void> getInitialList([Param? param]) async {
     _parameter = param;
     _resetPagination();
-    await _getListOn(
-      page: 1,
-      currentList: [],
-      parameter: _parameter,
-    );
+    await _getListOn(page: 1, currentList: [], parameter: _parameter);
   }
 
   Future<void> getNextPage() async {
@@ -78,8 +73,9 @@ mixin PaginatedStreamNotifierMixin<Entity, Param> on SimpleNotifierMixin {
   }) async {
     var updatedList = currentList;
     _listStreamSubscription?.cancel();
-    _listStreamSubscription =
-        getListStreamOrFailure(page, parameter).listen((result) {
+    _listStreamSubscription = getListStreamOrFailure(page, parameter).listen((
+      result,
+    ) {
       result.fold(
         (failure) {
           if (_useGlobalFailure) {
