@@ -3,6 +3,8 @@
 [![Pub Version](https://img.shields.io/pub/v/riverpod_architecture)](https://pub.dev/packages/riverpod_architecture)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+> Read the article: [A Riverpod 3 architecture for Flutter apps](https://medium.com/@noatubic/a-riverpod-3-architecture-for-flutter-apps-386dd142390e)
+
 A Flutter state management architecture built on **Riverpod 3.x**, providing reusable notifier classes and utilities for clean, scalable applications. This package reduces boilerplate by providing standardized patterns for handling state, errors, pagination, and data mapping.
 
 ## Features
